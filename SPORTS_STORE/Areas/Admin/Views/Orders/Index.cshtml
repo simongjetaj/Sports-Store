@@ -1,0 +1,30 @@
+﻿@using SPORTS_STORE.Areas.Admin.Models;
+
+@model  IEnumerable<OrderViewModel>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2 class="mt-5">Orders</h2>
+
+
+@if (Model.Count() != 0)
+{
+    <div>
+        <ul>
+            @foreach (var order in Model)
+            {
+                <li>
+                    @(order.User) has ordered @(order.Name) (@order.Quantity). <strong>Address: @(order.Address) (@order.Zip)</strong>
+                </li> 
+            }
+        </ul>
+        <hr />
+    </div>
+}
+else
+{
+    <p>There are no orders.</p>
+}
+

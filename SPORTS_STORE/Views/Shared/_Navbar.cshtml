@@ -1,0 +1,33 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/"><strong>Sports Store</strong></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/Products/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Cart/">Cart (@(Session["cartItemsCount"] ?? 0))</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/">Admin</a>
+            </li>
+        </ul>
+        @using (Html.BeginForm("/Index", "Products", FormMethod.Get, htmlAttributes: new { @class = "form-inline my-2 my-lg-0" }))
+        {
+            <input class="form-control mr-sm-2" type="search" id="txtSearch" name="search" placeholder="Search Product..." aria-label="Search">
+
+            if (Request.QueryString["category"] != null)
+            {
+                    <input type="hidden" name="category" value="@Request.QueryString["category"]"/> 
+            }
+            <button class="btn btn-outline-light my-2 my-sm-0 mr-5" type="submit">Search</button>
+        }
+        @Html.Partial("_LoginPartial")
+    </div>
+</nav>
+

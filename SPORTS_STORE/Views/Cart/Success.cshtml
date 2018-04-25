@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Success";
+}
+
+<h2 class="mt-5">Thanks!</h2>
+<p class="lead">
+    Thanks for placing your order <u>[Id: @(Session["checkoutId"])]</u>.
+    We'll ship your goods at <u>@Session["address"]</u> right away!
+</p>
+
+@Html.ActionLink("Shop Again?", "Index", "Products", null, new { @class = "btn btn-outline-primary" })

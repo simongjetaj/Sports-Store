@@ -1,0 +1,16 @@
+﻿@model SPORTS_STORE.Models.Product
+
+<div class="text-white p-3 mb-3 card bg-secondary">
+    <h4>
+        @Model.Name
+        <span class="float-right badge badge-info">@Html.DisplayFor(model => model.Price)</span>
+    </h4>
+    <div class="lead">
+        <span>@Model.Description </span>
+        @using (Html.BeginForm("Index", "Cart", FormMethod.Post, new { @class = "float-right" }))
+        {
+            @Html.HiddenFor(p => p.ProductId)
+            <button type="submit" class="btn btn-dark btn-sm">Add to Cart</button>
+        }
+    </div>
+</div>
