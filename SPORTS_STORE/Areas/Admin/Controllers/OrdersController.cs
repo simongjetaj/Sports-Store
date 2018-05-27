@@ -9,15 +9,12 @@ using System.Web.Mvc;
 
 namespace SPORTS_STORE.Areas.Admin.Controllers
 {
-
     public class OrdersController : Controller
     {
         private SportsStoreEntities db = new SportsStoreEntities();
 
         public ActionResult Index()
         {
-            Guid userId = Guid.Parse(User.Identity.GetUserId());
-
             var userOrders =
                 from checkout in db.Checkouts
                 join order in db.Orders on checkout.Id equals order.CheckoutId

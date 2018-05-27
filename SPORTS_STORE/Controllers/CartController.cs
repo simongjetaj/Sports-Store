@@ -16,7 +16,6 @@ namespace SPORTS_STORE.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //Session.Clear();
             Guid userId = Guid.Parse(User.Identity.GetUserId());
             var cartId = (from x in db.Carts where x.UserId == userId select x.Id).FirstOrDefault();
 

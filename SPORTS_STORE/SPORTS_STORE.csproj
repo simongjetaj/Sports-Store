@@ -218,9 +218,11 @@
       <DependentUpon>ProductEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CartViewModel.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\Checkout.cs">
       <DependentUpon>ProductEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HomePageViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs">

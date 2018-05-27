@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SPORTS_STORE.Models;
 using PagedList;
-using PagedList.Mvc;
 
 namespace SPORTS_STORE.Controllers
 {
@@ -24,45 +19,42 @@ namespace SPORTS_STORE.Controllers
                 Session["address"] = null;
             }
 
-            ViewBag.categories = db.Products.Select(m => m.Category).Distinct().ToList();
+            var categories = db.Products
+                .Select(x => new CategoryViewModel
+                {
+                    Name = x.Category
+                })
+                .Distinct()
+                .ToList();
+
             ViewBag.selectedCategory = category;
 
+            var products = (dynamic)null;
             if (String.IsNullOrEmpty(category) && String.IsNullOrEmpty(search))
             {
-                return View(db.Products.ToList().ToPagedList(page ?? 1, 3));
+                products = db.Products.ToList().ToPagedList(page ?? 1, 3);
+
             }
             else if (!String.IsNullOrEmpty(category) && !String.IsNullOrEmpty(search))
             {
-                return View(db.Products
+                products = db.Products
                     .Where(p => p.Category.Equals(category) && p.Name.Contains(search))
-                    .ToList().ToPagedList(page ?? 1, 3));
+                    .ToList().ToPagedList(page ?? 1, 3);
             }
             else
             {
-                return View(db.Products
+                products = db.Products
                     .Where(p => p.Category.Equals(category) || p.Name.Contains(search))
-                    .ToList().ToPagedList(page ?? 1, 3));
+                    .ToList().ToPagedList(page ?? 1, 3);
             }
+
+            HomePageViewModel homePageViewModel = new HomePageViewModel
+            {
+                Products = products,
+                Categories = categories
+            };
+
+            return View(homePageViewModel);
         }
-
-
-        //public JsonResult GetProducts(string search)
-        //{
-        //    List<Product> products;
-
-        //    products = db.Products
-        //        .Where(x => x.Name.Contains(search))
-        //        .Select(x => new Product
-        //        {
-        //            ProductId = x.ProductId,
-        //            Name = x.Name,
-        //            Price = x.Price,
-        //            Description = x.Description
-        //        }
-        //        )
-        //        .ToList();
-
-        //    return Json(products, JsonRequestBehavior.AllowGet);
-        //}
     }
 }
