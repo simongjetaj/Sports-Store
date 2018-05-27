@@ -1,7 +1,6 @@
-﻿@model IPagedList<SPORTS_STORE.Models.Product>
+﻿@model HomePageViewModel
 @using SPORTS_STORE.Models
-@using PagedList.Mvc
-@using PagedList
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Products";
@@ -15,30 +14,32 @@
     <div class="row">
         <div class="col-md-2">
             <div class="btn-group-vertical">
+
                 @Html.RouteLink("Home", null, htmlAttributes: new { @class = "btn btn-outline-primary mb-1" })
-                @foreach (var category in ViewBag.categories)
+                @foreach (var category in Model.Categories)
                 {
-                    @Html.ActionLink((string)category, "/Index", new { category = category }, htmlAttributes: new { @class = (category.Equals(ViewBag.selectedCategory) ? "btn btn-primary mb-1" : "btn btn-outline-primary mb-1") });
+                    @Html.ActionLink(category.Name, "/Index", new { category = category.Name }, htmlAttributes: new { @class = (category.Name.Equals(ViewBag.selectedCategory) ? "btn btn-primary mb-1" : "btn btn-outline-primary mb-1") });
                 }
+
             </div>
         </div>
 
         <div class="col-md-10">
 
-            @if (Model.Count() == 0)
+            @if (Model.Products.Count() == 0)
             {
                 <p class="text-center">No results match your search criteria.</p>
             }
             else
             {
-                foreach (var product in Model)
+                foreach (var product in Model.Products)
                 {
                     @Html.Partial("_ProductSummary", product);
                 }
             }
 
             <div class="text-center">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = Request.QueryString["search"], category = Request.QueryString["category"] }),
+                @Html.PagedListPager(Model.Products, page => Url.Action("Index", new { page, search = Request.QueryString["search"], category = Request.QueryString["category"] }),
                                                                   new PagedListRenderOptions()
                                                                   {
                                                                       Display = PagedListDisplayMode.IfNeeded
@@ -62,35 +63,5 @@
 
                 }, 2000);
             }
-
-            $("#txtSearch").on("input", searchAlbums);
-
-            function searchAlbums(e) {
-                $.getJSON(`/Products/GetProducts?search=${encodeURIComponent(e.target.value)}`, function (data) {
-
-                    console.log(data)
-                    @*data.forEach(function (product) {
-                        let output = `
-                        <div class="text-white p-3 mb-3 card bg-secondary">
-                            <h4>
-                                ${product.Name}
-                                <span class="float-right badge badge-info">${product.Price}</span>
-                            </h4>
-                            <div class="lead">
-                                <span>data.Description </span>
-                                @using (Html.BeginForm("Index", "Cart", FormMethod.Post, new { @class = "float-right" }))
-                                {
-                                    @Html.HiddenFor(p => product.ProductId)
-                                    <button type="submit" class="btn btn-dark btn-sm">Add to Cart</button>
-                                }
-                            </div>
-                        </div>
-                        `;
-                    });
-
-                    $('.columns').append(output);*@
-                });
-            }
-        });
     </script>
 }
