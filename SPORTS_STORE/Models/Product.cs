@@ -18,6 +18,7 @@ namespace SPORTS_STORE.Models
         public Product()
         {
             this.CartProducts = new HashSet<CartProduct>();
+            this.Orders = new HashSet<Order>();
         }
     
         public System.Guid ProductId { get; set; }
@@ -28,5 +29,7 @@ namespace SPORTS_STORE.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartProduct> CartProducts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

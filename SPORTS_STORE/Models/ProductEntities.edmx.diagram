@@ -14,6 +14,7 @@
         <EntityTypeShape EntityType="SportsStoreModel.Order" Width="1.5" PointX="7.625" PointY="1.375" />
         <EntityTypeShape EntityType="SportsStoreModel.Checkout" Width="1.5" PointX="5.375" PointY="1.125" />
         <AssociationConnector Association="SportsStoreModel.FK_dbo_Checkouts_dbo_Checkouts_Id" />
+        <AssociationConnector Association="SportsStoreModel.FK_dbo_Products_dbo_ProductId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

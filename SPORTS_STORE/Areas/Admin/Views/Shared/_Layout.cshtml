@@ -24,7 +24,7 @@
         @RenderBody()
         <hr />
         <footer class="text-center">
-            <p><strong>Simon Gjetaj</strong> &copy; @DateTime.Now.Year</p>
+            <small>Designed &amp; Developed by <strong><a href="https://simongjetaj.github.io/" target="_blank">Simon Gjetaj</a></strong> &copy; @(DateTime.Now.Year > 2018 ? $"2018 - {DateTime.Now.Year}" : DateTime.Now.Year.ToString())</small>
         </footer>
     </div>
 
