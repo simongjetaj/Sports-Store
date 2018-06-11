@@ -12,7 +12,7 @@ namespace SPORTS_STORE.Areas.Admin.Controllers
     public class OrdersController : Controller
     {
         private SportsStoreEntities db = new SportsStoreEntities();
-
+        
         public ActionResult Index()
         {
             var userOrders =
