@@ -49,9 +49,9 @@ namespace SPORTS_STORE.Controllers
         [HttpPost]
         public ActionResult Index(Guid ProductId) //send ProductId as a hidden field from the view
         {
-
             var userId = Guid.Parse(User.Identity.GetUserId());
             var userExists = db.Carts.Where(u => u.UserId == userId); // checking if user that is currently on the page exists
+            var cartId = (from x in db.Carts where x.UserId == userId select x.Id).FirstOrDefault();
 
             var cart = new Cart();
 
@@ -64,10 +64,8 @@ namespace SPORTS_STORE.Controllers
             else
             {
                 // get the specific card id of the user
-                cart.Id = (from x in db.Carts where x.UserId == userId select x.Id).FirstOrDefault();
+                cart.Id = cartId;
             }
-
-            var cartId = (from x in db.Carts where x.UserId == userId select x.Id).FirstOrDefault();
 
             var productExists = db.CartProducts.Where(p => p.ProductId == ProductId).Where(c => c.CartId == cartId);
             var cartExists = db.CartProducts.Any(p => p.CartId == cartId);
@@ -111,8 +109,6 @@ namespace SPORTS_STORE.Controllers
             if (product.Quantity == 1)
             {
                 db.CartProducts.Remove(product);
-                var cart = db.Carts.Where(p => p.UserId == userId).SingleOrDefault();
-                db.Carts.Remove(cart);
                 db.SaveChanges();
             }
             else
