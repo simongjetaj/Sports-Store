@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SportsStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SportsStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CartProducts">
           <Key>
             <PropertyRef Name="Id" />
@@ -132,53 +132,11 @@
             <End Role="CartProducts" EntitySet="CartProducts" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SportsStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="ProductId" />
-          </Key>
-          <Property Name="ProductId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CartProducts" Relationship="SportsStoreModel.FK_dbo_Products_dbo_Products_ProductId" FromRole="Product" ToRole="CartProduct" />
-          <NavigationProperty Name="Orders" Relationship="SportsStoreModel.FK_dbo_Products_dbo_ProductId" FromRole="Product" ToRole="Order" />
-        </EntityType>
-        <EntityContainer Name="SportsStoreEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="Carts" EntityType="SportsStoreModel.Cart" />
-          <EntitySet Name="CartProducts" EntityType="SportsStoreModel.CartProduct" />
-          <AssociationSet Name="FK_dbo_Carts_dbo_Id" Association="SportsStoreModel.FK_dbo_Carts_dbo_Id">
-            <End Role="Cart" EntitySet="Carts" />
-            <End Role="CartProduct" EntitySet="CartProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Products_dbo_Products_ProductId" Association="SportsStoreModel.FK_dbo_Products_dbo_Products_ProductId">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="CartProduct" EntitySet="CartProducts" />
-          </AssociationSet>
-          <EntitySet Name="Orders" EntityType="SportsStoreModel.Order" />
-          <EntitySet Name="Checkouts" EntityType="SportsStoreModel.Checkout" />
-          <AssociationSet Name="FK_dbo_Checkouts_dbo_Checkouts_Id" Association="SportsStoreModel.FK_dbo_Checkouts_dbo_Checkouts_Id">
-            <End Role="Checkout" EntitySet="Checkouts" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Products_dbo_ProductId" Association="SportsStoreModel.FK_dbo_Products_dbo_ProductId">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Cart">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="CartProducts" Relationship="SportsStoreModel.FK_dbo_Carts_dbo_Id" FromRole="Cart" ToRole="CartProduct" />
-        </EntityType>
         <EntityType Name="CartProduct">
           <Key>
             <PropertyRef Name="Id" />
@@ -188,37 +146,30 @@
           <Property Name="ProductId" Type="Guid" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="Ordered" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Cart" Relationship="SportsStoreModel.FK_dbo_Carts_dbo_Id" FromRole="CartProduct" ToRole="Cart" />
-          <NavigationProperty Name="Product" Relationship="SportsStoreModel.FK_dbo_Products_dbo_Products_ProductId" FromRole="CartProduct" ToRole="Product" />
+          <NavigationProperty Name="Cart" Relationship="Self.FK_dbo_Carts_dbo_Id" FromRole="CartProducts" ToRole="Carts" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_dbo_Products_dbo_Products_ProductId" FromRole="CartProducts" ToRole="Products" />
         </EntityType>
-        <Association Name="FK_dbo_Carts_dbo_Id">
-          <End Type="SportsStoreModel.Cart" Role="Cart" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SportsStoreModel.CartProduct" Role="CartProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cart">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CartProduct">
-              <PropertyRef Name="CartId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Products_dbo_Products_ProductId">
-          <End Type="SportsStoreModel.Product" Role="Product" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SportsStoreModel.CartProduct" Role="CartProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="CartProduct">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="CartProducts" Relationship="Self.FK_dbo_Carts_dbo_Id" FromRole="Carts" ToRole="CartProducts" />
+        </EntityType>
+        <EntityType Name="Checkout">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Zip" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_dbo_Checkouts_dbo_Checkouts_Id" FromRole="Checkouts" ToRole="Orders" />
+        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -227,56 +178,148 @@
           <Property Name="CheckoutId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Guid" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Checkout" Relationship="SportsStoreModel.FK_dbo_Checkouts_dbo_Checkouts_Id" FromRole="Order" ToRole="Checkout" />
-          <NavigationProperty Name="Product" Relationship="SportsStoreModel.FK_dbo_Products_dbo_ProductId" FromRole="Order" ToRole="Product" />
+          <NavigationProperty Name="Checkout" Relationship="Self.FK_dbo_Checkouts_dbo_Checkouts_Id" FromRole="Orders" ToRole="Checkouts" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_dbo_Products_dbo_ProductId" FromRole="Orders" ToRole="Products" />
         </EntityType>
-        <EntityType Name="Checkout">
+        <EntityType Name="Product">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ProductId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="State" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Zip" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="SportsStoreModel.FK_dbo_Checkouts_dbo_Checkouts_Id" FromRole="Checkout" ToRole="Order" />
+          <Property Name="ProductId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CartProducts" Relationship="Self.FK_dbo_Products_dbo_Products_ProductId" FromRole="Products" ToRole="CartProducts" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_dbo_Products_dbo_ProductId" FromRole="Products" ToRole="Orders" />
         </EntityType>
-        <Association Name="FK_dbo_Checkouts_dbo_Checkouts_Id">
-          <End Type="SportsStoreModel.Checkout" Role="Checkout" Multiplicity="1">
+        <Association Name="FK_dbo_Carts_dbo_Id">
+          <End Role="Carts" Type="Self.Cart" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="SportsStoreModel.Order" Role="Order" Multiplicity="*" />
+          <End Role="CartProducts" Type="Self.CartProduct" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Checkout">
+            <Principal Role="Carts">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Order">
+            <Dependent Role="CartProducts">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Products_dbo_Products_ProductId">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CartProducts" Type="Self.CartProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="CartProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Checkouts_dbo_Checkouts_Id">
+          <End Role="Checkouts" Type="Self.Checkout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Checkouts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
               <PropertyRef Name="CheckoutId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Products_dbo_ProductId">
-          <End Type="SportsStoreModel.Product" Role="Product" Multiplicity="1">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="SportsStoreModel.Order" Role="Order" Multiplicity="*" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Product">
+            <Principal Role="Products">
               <PropertyRef Name="ProductId" />
             </Principal>
-            <Dependent Role="Order">
+            <Dependent Role="Orders">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="SportsStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CartProducts" EntityType="Self.CartProduct" />
+          <EntitySet Name="Carts" EntityType="Self.Cart" />
+          <EntitySet Name="Checkouts" EntityType="Self.Checkout" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_dbo_Carts_dbo_Id" Association="Self.FK_dbo_Carts_dbo_Id">
+            <End Role="Carts" EntitySet="Carts" />
+            <End Role="CartProducts" EntitySet="CartProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Products_dbo_Products_ProductId" Association="Self.FK_dbo_Products_dbo_Products_ProductId">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="CartProducts" EntitySet="CartProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Checkouts_dbo_Checkouts_Id" Association="Self.FK_dbo_Checkouts_dbo_Checkouts_Id">
+            <End Role="Checkouts" EntitySet="Checkouts" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Products_dbo_ProductId" Association="Self.FK_dbo_Products_dbo_ProductId">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SportsStoreModelStoreContainer" CdmEntityContainer="SportsStoreEntities">
+          <EntitySetMapping Name="CartProducts">
+            <EntityTypeMapping TypeName="SportsStoreModel.CartProduct">
+              <MappingFragment StoreEntitySet="CartProducts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Ordered" ColumnName="Ordered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="SportsStoreModel.Cart">
+              <MappingFragment StoreEntitySet="Carts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Checkouts">
+            <EntityTypeMapping TypeName="SportsStoreModel.Checkout">
+              <MappingFragment StoreEntitySet="Checkouts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="SportsStoreModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CheckoutId" ColumnName="CheckoutId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="SportsStoreModel.Product">
               <MappingFragment StoreEntitySet="Products">
@@ -285,48 +328,6 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Carts">
-            <EntityTypeMapping TypeName="SportsStoreModel.Cart">
-              <MappingFragment StoreEntitySet="Carts">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CartProducts">
-            <EntityTypeMapping TypeName="SportsStoreModel.CartProduct">
-              <MappingFragment StoreEntitySet="CartProducts">
-                <ScalarProperty Name="Ordered" ColumnName="Ordered" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="CartId" ColumnName="CartId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="SportsStoreModel.Order">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="CheckoutId" ColumnName="CheckoutId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Checkouts">
-            <EntityTypeMapping TypeName="SportsStoreModel.Checkout">
-              <MappingFragment StoreEntitySet="Checkouts">
-                <ScalarProperty Name="Zip" ColumnName="Zip" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6664d9cbe5f643ff9879b17a8c19acf0" Name="Diagram1">
+        <EntityTypeShape EntityType="SportsStoreModel.CartProduct" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportsStoreModel.Cart" Width="1.5" PointX="2.375" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportsStoreModel.Checkout" Width="1.5" PointX="7" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportsStoreModel.Order" Width="1.5" PointX="8" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportsStoreModel.Product" Width="1.5" PointX="5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="SportsStoreModel.FK_dbo_Carts_dbo_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="SportsStoreModel.FK_dbo_Products_dbo_Products_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="SportsStoreModel.FK_dbo_Checkouts_dbo_Checkouts_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="SportsStoreModel.FK_dbo_Products_dbo_ProductId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
