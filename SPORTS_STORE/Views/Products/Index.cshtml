@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Products";
+    bool isEmpty = !Model.Products.Any();
 }
 
 <h3 class="text-center mt-3">Product List</h3>
@@ -23,10 +24,13 @@
         </div>
 
         <div class="col-md-10">
-
-            @if (Model.Products.Count() == 0)
+            @if(!string.IsNullOrEmpty(Request.QueryString["search"]) && isEmpty)
             {
-                <p class="text-center">No results match your search criteria.</p>
+                <p class="text-center">No results match your search criteria!</p>
+            }
+            else if (isEmpty)
+            {
+                <p class="text-center">The product list is empty!</p>
             }
             else
             {

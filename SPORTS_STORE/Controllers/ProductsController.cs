@@ -30,12 +30,12 @@ namespace SPORTS_STORE.Controllers
             ViewBag.selectedCategory = category;
 
             var products = (dynamic)null;
-            if (String.IsNullOrEmpty(category) && String.IsNullOrEmpty(search))
+            if (string.IsNullOrEmpty(category) && string.IsNullOrEmpty(search))
             {
                 products = db.Products.ToList().ToPagedList(page ?? 1, 3);
 
             }
-            else if (!String.IsNullOrEmpty(category) && !String.IsNullOrEmpty(search))
+            else if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(search))
             {
                 products = db.Products
                     .Where(p => p.Category.Equals(category) && p.Name.Contains(search))
